@@ -3,7 +3,7 @@ public class Car {
 
     public void parkInLot(ParkingLot parkingLot) {
         if (parkingLot.canPark()) {
-            parkingLot.park(this);
+            parkingLot.assignToEmptySpot(this);
             this.parked = true;
         }
     }

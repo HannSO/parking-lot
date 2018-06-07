@@ -18,7 +18,7 @@ public class ParkingLotTest {
     public void canRetrieveCarAfterParked() {
         ParkingLot parkinglot = new ParkingLot();
         Car car = new Car();
-        parkinglot.park(car);
+        parkinglot.assignToEmptySpot(car);
 
         assertThat(parkinglot.retrieveCar(), equalTo(Optional.of(car)));
     }
@@ -33,7 +33,7 @@ public class ParkingLotTest {
     public void cantParkCar() {
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
-        parkingLot.park(car);
+        parkingLot.assignToEmptySpot(car);
         assertFalse(parkingLot.canPark());
     }
 
@@ -42,8 +42,8 @@ public class ParkingLotTest {
         ParkingLot parkingLot = new ParkingLot();
         Car car1 = new Car();
         Car car2 = new Car();
-        parkingLot.park(car1);
-        parkingLot.park(car2);
+        parkingLot.assignToEmptySpot(car1);
+        parkingLot.assignToEmptySpot(car2);
         assertThat(parkingLot.retrieveCar(), equalTo(Optional.of(car1)));
     }
 
@@ -51,7 +51,7 @@ public class ParkingLotTest {
     public void carIsNotThereOnceRetrieved() {
         ParkingLot parkinglot = new ParkingLot();
         Car car = new Car();
-        parkinglot.park(car);
+        parkinglot.assignToEmptySpot(car);
         parkinglot.retrieveCar();
 
         assertThat(parkinglot.retrieveCar(), equalTo(Optional.empty()));

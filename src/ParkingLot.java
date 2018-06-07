@@ -10,7 +10,7 @@ public class ParkingLot {
         return retrievedCar;
     }
 
-    public void park(Car car) {
+    public void assignToEmptySpot(Car car) {
         if (canPark()) {
             this.spot = Optional.ofNullable(car);
         }
