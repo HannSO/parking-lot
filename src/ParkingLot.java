@@ -2,13 +2,21 @@ import java.util.Optional;
 
 public class ParkingLot {
 
-    private Car car;
+    private Optional<Object> spot = Optional.empty();
 
     public Optional retrieveCar() {
-        return Optional.ofNullable(car);
+        Optional<Object> retrievedCar = this.spot;
+        this.spot = Optional.empty();
+        return retrievedCar;
     }
 
     public void park(Car car) {
-        this.car = car;
+        if (canPark()) {
+            this.spot = Optional.ofNullable(car);
+        }
+    }
+
+    public Boolean canPark() {
+        return !spot.isPresent();
     }
 }
