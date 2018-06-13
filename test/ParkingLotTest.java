@@ -11,16 +11,17 @@ public class ParkingLotTest {
     @Test
     public void cantRetrieveCarWhenEmpty() {
         ParkingLot parkinglot = new ParkingLot();
-        assertThat(parkinglot.retrieveCar(), equalTo(Optional.empty()));
+        Car car = new Car();
+        assertThat(parkinglot.retrieveCar(car), equalTo(Optional.empty()));
     }
 
     @Test
     public void canRetrieveCarAfterParked() {
         ParkingLot parkinglot = new ParkingLot();
         Car car = new Car();
-        parkinglot.assignToEmptySpot(car);
+        parkinglot.park(car);
 
-        assertThat(parkinglot.retrieveCar(), equalTo(Optional.of(car)));
+        assertThat(parkinglot.retrieveCar(car), equalTo(Optional.of(car)));
     }
 
     @Test
@@ -30,32 +31,45 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void cantParkCar() {
+    public void cantParkCarBecauseCapacityIsFull() {
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
-        parkingLot.assignToEmptySpot(car);
+        parkingLot.park(car);
         assertFalse(parkingLot.canPark());
     }
 
     @Test
-    public void cantParkCar2WhenCar1IsParked() {
+    public void cantParkCar2WhenCar1IsParkedWhenCapacityIsOne() {
         ParkingLot parkingLot = new ParkingLot();
         Car car1 = new Car();
         Car car2 = new Car();
-        parkingLot.assignToEmptySpot(car1);
-        parkingLot.assignToEmptySpot(car2);
-        assertThat(parkingLot.retrieveCar(), equalTo(Optional.of(car1)));
+        parkingLot.park(car1);
+        parkingLot.park(car2);
+        assertThat(parkingLot.retrieveCar(car1), equalTo(Optional.of(car1)));
+        assertThat(parkingLot.retrieveCar(car2), equalTo(Optional.empty()));
     }
 
     @Test
     public void carIsNotThereOnceRetrieved() {
         ParkingLot parkinglot = new ParkingLot();
         Car car = new Car();
-        parkinglot.assignToEmptySpot(car);
-        parkinglot.retrieveCar();
+        parkinglot.park(car);
+        parkinglot.retrieveCar(car);
 
-        assertThat(parkinglot.retrieveCar(), equalTo(Optional.empty()));
+        assertThat(parkinglot.retrieveCar(car), equalTo(Optional.empty()));
     }
 
+    @Test
+    public void canParkSecondCarIfCapacityIs2() {
+        ParkingLot parkingLot = new ParkingLot(2);
+        Car car1 = new Car();
+        Car car2 = new Car();
 
+        parkingLot.park(car1);
+        parkingLot.park(car2);
+
+
+        assertThat(parkingLot.retrieveCar(car1), equalTo(Optional.of(car1)));
+        assertThat(parkingLot.retrieveCar(car2), equalTo(Optional.of(car2)));
+    }
 }

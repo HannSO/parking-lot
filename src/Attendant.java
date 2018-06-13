@@ -7,7 +7,8 @@ public class Attendant {
         managedParkingLots.add(parkingLot);
         managedParkingLots.add(parkingLot2);
     }
-    public ParkingLot findParkingLotWithAvailableSpot() {
+    public ParkingLot parkInCorrectParkingLot(Car car) {
+        //park car
         return managedParkingLots.stream().filter(lot -> lot.canPark()).findFirst().get();
     }
 }

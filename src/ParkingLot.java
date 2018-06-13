@@ -1,22 +1,36 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class ParkingLot {
 
-    private Optional<Object> spot = Optional.empty();
+    private List<Car> cars = new ArrayList<Car>();
+    private int capacity;
 
-    public Optional retrieveCar() {
-        Optional<Object> retrievedCar = this.spot;
-        this.spot = Optional.empty();
-        return retrievedCar;
+    public ParkingLot(int capacity) {
+        this.capacity = capacity;
     }
 
-    public void assignToEmptySpot(Car car) {
+    @Deprecated
+    public ParkingLot() {
+        this.capacity = 1;
+    }
+
+    public Optional retrieveCar(Car car) {
+        if (cars.contains(car)) {
+            cars.remove(car);
+            return Optional.of(car);
+        }
+        return Optional.empty();
+    }
+
+    public void park(Car car) {
         if (canPark()) {
-            this.spot = Optional.ofNullable(car);
+            cars.add(car);
         }
     }
 
     public Boolean canPark() {
-        return !spot.isPresent();
+        return (cars.size() < capacity);
     }
 }
